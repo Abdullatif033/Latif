@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -12,8 +13,11 @@ func home(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	w.Write([]byte("Hello snipetbox"))
 }
+	err=ts.Execute(w,nil)
+		if err !nil {
+			log.Println(err.Error())
+		}
 
 func showSnippet(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
@@ -32,15 +36,4 @@ func createSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write([]byte("Creating a new note..."))
-}
-
-func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/snippet", showSnippet)
-	mux.HandleFunc("/snippet/create", createSnippet)
-	log.Println("Запуск веб-сервера на http://127.0.0.1:4000")
-	err := http.ListenAndServe(":4000", mux)
-	log.Fatal(err)
-
 }

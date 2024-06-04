@@ -41,16 +41,16 @@ func showSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "Отображение выбранной заметки с ID %d...", id)
+	fmt.Fprintf(w, "Displaying the selected note with ID %d...", id)
 }
 
 func createSnippet(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.Header().Set("Allow", http.MethodPost)
 
-		http.Error(w, "Метод запрещен!", 405)
+		http.Error(w, "The method is prohibited!", 405)
 		return
 	}
 
-	w.Write([]byte("Создание новой заметки..."))
+	w.Write([]byte("Creating a new note..."))
 }

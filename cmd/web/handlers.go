@@ -13,6 +13,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+
 	files := []string{
 		"./ui/html/home.page.tmpl",
 		"./ui/html/base.layout.tmpl",
@@ -32,21 +33,24 @@ func home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", 500)
 	}
 }
+
 func showSnippet(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	if err != nil || id < 1 {
 		http.NotFound(w, r)
 		return
 	}
-	fmt.Fprint(w, "Display the selected note ID @d...", id)
+
+	fmt.Fprintf(w, "Отображение выбранной заметки с ID %d...", id)
 }
 
 func createSnippet(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("welcome to our snippetbox"))
 	if r.Method != http.MethodPost {
 		w.Header().Set("Allow", http.MethodPost)
-		http.Error(w, " Get-Method !", 405)
+
+		http.Error(w, "Метод запрещен!", 405)
 		return
 	}
-	w.Write([]byte("Creating a new note..."))
+
+	w.Write([]byte("Создание новой заметки..."))
 }
